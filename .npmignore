@@ -3,4 +3,5 @@
 .*
 
 # Except for
+!index.js
 !index.mjs
