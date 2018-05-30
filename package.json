@@ -1,0 +1,15 @@
+{
+  "name": "platform-detect",
+  "version": "0.0.1",
+  "description": "🃏 Minimalistic isomorphic library for detection of platform, runtime, APIs and more.",
+  "author": "Mike Kovařík",
+  "license": "MIT",
+  "scripts": {
+    "dev": "rollup -c rollup.config.dev.js -w",
+    "build": "rollup -c rollup.config.prod.js"
+  },
+  "devDependencies": {
+    "rollup": "^0.59.4",
+    "rollup-plugin-uglify-es": "0.0.1"
+  }
+}
