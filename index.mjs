@@ -87,6 +87,8 @@ export default {
 	// app features
 	hasWindow,
 	isConsole,
+	window: hasWindow,
+	console: isConsole,
 	// other
 	dev: sdk,
 	sdk,
