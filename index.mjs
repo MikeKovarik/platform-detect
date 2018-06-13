@@ -43,19 +43,30 @@ var worker = !hasWindow && typeof self !== 'undefined' && !!self.importScripts &
 // OS
 
 var windows  = node ? process.platform === 'win32'  : ua.includes('Windows')
+var linux    = node ? process.platform === 'linux'  : undefined // TODO: detect in browser
 var macosx   = node ? process.platform === 'darwin' : ua.includes('Macintosh')
-var linux    = node ? process.platform === 'linux'  : undefined // TODO
+var ios      = undefined // TODO
 var chromeos = hasWindow && ua.includes('CrOS') // TODO
 var android  = hasWindow && ua.includes('Android') // TODO
 
 
-// RENDERING ENGINE
+// BROWSER / RENDERING ENGINE
 
 // These return true if their rendering engine is used to render the app.
-// I.e: UWP apps are rendered by Edge's EdgeHTML, Electron/NWJS apps are rendered by Chromium.s
-var edge    = hasWindow && ua.includes('Edge')
-var chrome  = hasWindow && ua.includes('Chrome') && !ua.includes('Edge') // TODO: verify
-var firefox = undefined // TODO
+// I.e: UWP apps are rendered by Edge's EdgeHTML, Electron/NWJS apps are rendered by Chromium.
+
+// https://blogs.windows.com/msedgedev/2017/10/05/microsoft-edge-ios-android-developer/#49Fi4TfpgzHAwuXQ.97
+//var edgeAndroid = hasWindow && ua.includes('EdgiOS/')
+//var edgeIos     = hasWindow && ua.includes('EdgA/')
+var edgeWindows = hasWindow && ua.includes('Edge/')
+// NOTE: Only returnin true for Edge (EdgeHtml) on windows. Android/iOs versions of Edge are powered by Webkit.
+var edge        = edgeWindows
+var chrome      = hasWindow && ua.includes('Chrome') && !ua.includes('Edge/') // TODO: verify
+var safari      = hasWindow && ua.includes('Safari') // TODO: verify
+//var firefox     = undefined // TODO
+//var webkit  = undefined // TODO
+//var v8      = undefined // TODO
+//var chakra  = undefined // TODO
 
 
 // FORM FACTOR
@@ -69,15 +80,18 @@ var touch = typeof navigator !== 'undefined' && navigator.maxTouchPoints > 0
 
 // Detects if the platform is constrained by Cancerous Security Policy.
 var csp = uwp || chromeapp
+// Detects if NW.JS runs in SDK version (console available) and if Electron is executed from npm/node_modules/electron global.
+// TODO: would be nice to detect if UWP is attached to Visual Studio debugger.
+var sdk = (nwjs && process.versions['nw-flavor'] === 'sdk')
+		|| (electron && process.execPath.replace(/\\/g, '/').includes('node_modules/electron/'))
 // Supports service workers
-var supportsServiceWorker = typeof navigator !== 'undefined' && !!navigator.serviceWorker && !!navigator.serviceWorker.register
-var sdk = (nwjs && process.versions['nw-flavor']) || (electron && false) // TODO
+//var supportsServiceWorker = typeof navigator !== 'undefined' && !!navigator.serviceWorker && !!navigator.serviceWorker.register
 
 export default {
 	// system
 	windows, android, chromeos,
 	// rendering engine
-	edge, chrome,
+	edge, chrome, safari,
 	// runtime
 	node, web,
 	pwa, uwp, cordova, chromeapp, nwjs, electron,
@@ -90,9 +104,9 @@ export default {
 	window: hasWindow,
 	console: isConsole,
 	// other
-	dev: sdk,
+	csp,
 	sdk,
-	csp
+	dev: sdk,
 }
 
 /*
