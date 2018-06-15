@@ -2,7 +2,7 @@
 var hasWindow = typeof navigator !== 'undefined' && typeof window !== 'undefined'
 // NW.JS' background script loads into invisible empty HTML page.
 // Therefore NW.JS "main" script has all of window, document, navigator objects
-// and window.opene won't be null if App's window is launched from such "main".
+// and window.open() won't be null if App's window is launched from such "main".
 if (hasWindow && typeof nw !== 'undefined') {
 	try {
 		nw.Window.get()
@@ -18,6 +18,7 @@ var ua = hasWindow ? navigator.userAgent : undefined
 
 // TODO: detext if the script runs in js or esm (if dirname is available)
 
+
 // RUNTIME
 
 // Fully functional Node & core modules.
@@ -25,6 +26,7 @@ var ua = hasWindow ? navigator.userAgent : undefined
 // it is false for browsers with shims or bundles of some Node modules (shimmed process, EventEmitter, etc..)
 var node = typeof process !== 'undefined' && !!process.versions && !!process.versions.node
 // Detects if the APP is launched as standalone Progressive Web App. Still a website, but looking like OS app, without url bar.
+// TODO: WARNING: this returns true even for popup windows created with window.open()
 var pwa = hasWindow && window.matchMedia('(display-mode: standalone)').matches
 // Windows 10 app - Universal Windows Platform.
 var uwp = typeof Windows !== 'undefined' && typeof MSApp !== 'undefined'
@@ -36,9 +38,12 @@ var cordova = hasWindow && !!window.cordova
 // Chrome app (Chrome OS app)
 var chromeapp = undefined // todo
 // Is the app just a plain old website, in a browsers, without node or any other special system bindings.
-var web = !node && !pwa && !uwp && !nwjs && !electron && !cordova && !chromeapp// && typeof window === 'object'
+var web     = !node && !uwp && !nwjs && !electron && !cordova && !chromeapp// && typeof window === 'object'
+var browser = !node && !uwp && !nwjs && !electron && !cordova && !chromeapp && !pwa// && typeof window === 'object'
 // Script is executed inside Web Worker
 var worker = !hasWindow && typeof self !== 'undefined' && !!self.importScripts && !!self.close
+
+
 
 // OS
 
@@ -48,6 +53,7 @@ var macosx   = node ? process.platform === 'darwin' : ua.includes('Macintosh')
 var ios      = undefined // TODO
 var chromeos = hasWindow && ua.includes('CrOS') // TODO
 var android  = hasWindow && ua.includes('Android') // TODO
+
 
 
 // BROWSER / RENDERING ENGINE
@@ -69,7 +75,8 @@ var safari      = hasWindow && ua.includes('Safari') // TODO: verify
 //var chakra  = undefined // TODO
 
 
-// FORM FACTOR
+// FORM FACTOR / DEVICE FEATURES
+
 var touch = typeof navigator !== 'undefined' && navigator.maxTouchPoints > 0
 // TODO: something like hasKeyboard, hasMouse, hasInk so this lib could be helpful
 // in variety of uwp, node, or iot apps.
@@ -93,7 +100,7 @@ export default {
 	// rendering engine
 	edge, chrome, safari,
 	// runtime
-	node, web,
+	node, web, browser,
 	pwa, uwp, cordova, chromeapp, nwjs, electron,
 	nw: nwjs,
 	// form factor
