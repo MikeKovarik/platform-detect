@@ -1,6 +1,6 @@
 {
   "name": "platform-detect",
-  "version": "0.0.4",
+  "version": "0.0.6",
   "description": "🃏 Minimalistic isomorphic library for detection of platform, runtime, APIs and more.",
   "author": "Mike Kovarik",
   "license": "MIT",

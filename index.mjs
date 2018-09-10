@@ -24,24 +24,39 @@ var ua = hasWindow ? navigator.userAgent : undefined
 // Fully functional Node & core modules.
 // it is true for Node.js, Electron, NW.JS
 // it is false for browsers with shims or bundles of some Node modules (shimmed process, EventEmitter, etc..)
-var node = typeof process !== 'undefined' && !!process.versions && !!process.versions.node
+var node = typeof process !== 'undefined'
+		&& !!process.versions
+		&& !!process.versions.node
+
 // Detects if the APP is launched as standalone Progressive Web App. Still a website, but looking like OS app, without url bar.
 // TODO: WARNING: this returns true even for popup windows created with window.open()
-var pwa = hasWindow && window.matchMedia('(display-mode: standalone)').matches
+var pwa = hasWindow
+		&& window.matchMedia('(display-mode: standalone)').matches
+		&& (document.head.querySelector('[rel="manifest"]') !== null)
+
 // Windows 10 app - Universal Windows Platform.
-var uwp = typeof Windows !== 'undefined' && typeof MSApp !== 'undefined'
+var uwp = typeof Windows !== 'undefined'
+		&& typeof MSApp !== 'undefined'
+
 // Node + Chromium
 var nwjs     = !!(node && process.versions.nw)
 var electron = !!(node && process.versions.electron)
+
 // Cordova mobile app
 var cordova = hasWindow && !!window.cordova
+
 // Chrome app (Chrome OS app)
 var chromeapp = undefined // todo
+
 // Is the app just a plain old website, in a browsers, without node or any other special system bindings.
 var web     = !node && !uwp && !nwjs && !electron && !cordova && !chromeapp// && typeof window === 'object'
 var browser = !node && !uwp && !nwjs && !electron && !cordova && !chromeapp && !pwa// && typeof window === 'object'
+
 // Script is executed inside Web Worker
-var worker = !hasWindow && typeof self !== 'undefined' && !!self.importScripts && !!self.close
+var worker = !hasWindow
+			&& typeof self !== 'undefined'
+			&& !!self.importScripts
+			&& !!self.close
 
 
 
@@ -89,8 +104,28 @@ var touch = typeof navigator !== 'undefined' && navigator.maxTouchPoints > 0
 var csp = uwp || chromeapp
 // Detects if NW.JS runs in SDK version (console available) and if Electron is executed from npm/node_modules/electron global.
 // TODO: would be nice to detect if UWP is attached to Visual Studio debugger.
-var sdk = (nwjs && process.versions['nw-flavor'] === 'sdk')
-		|| (electron && process.execPath.replace(/\\/g, '/').includes('node_modules/electron/'))
+var sdk = false
+if (nwjs) {
+	sdk = process.versions['nw-flavor'] === 'sdk'
+} else if (electron) {
+	sdk = process.execPath.replace(/\\/g, '/').includes('node_modules/electron/')
+} else if (uwp) {
+	sdk = Windows.ApplicationModel.Package.current.isDevelopmentMode
+} else if (browser) {
+	if (hasWindow) {
+		// Matching window size is a good first indicator but it isn't bulletproof.
+		// It won't work when devtools are detached from main window or in chrome remote debugging.
+		sdk  = window.outerWidth  - window.innerWidth  > 50
+			// NOTE: height has to incorporate at least 88px tall toolbar (even greater with touch UI).
+			|| window.outerHeight - window.innerHeight > 140
+	}
+	if (!sdk) {
+		// toString on object is only called in developer tools in console.
+		let temp = /./
+		temp.toString = () => sdk = true
+		console.log('%c', temp)
+	}
+}
 // Supports service workers
 //var supportsServiceWorker = typeof navigator !== 'undefined' && !!navigator.serviceWorker && !!navigator.serviceWorker.register
 
