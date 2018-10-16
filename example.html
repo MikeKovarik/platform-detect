@@ -28,15 +28,28 @@
 			flex: 1;
 		}
 		[secondary] {
-			font-family: 14px;
+			font-size: 13px;
 			opacity: 0.6;
 		}
-		.layout {
+
+		header {
+			margin-bottom: 16px !important;
+			align-items: center;
+		}
+		@media only screen and (max-width: 600px) {
+			header {
+				flex-direction: column;
+				align-items: flex-start;
+			}
+		}
+
+		main {
 			flex-wrap: wrap;
 		}
-		.layout > * {
+		main > * {
 			width: 240px;
 		}
+
 		h1, h2 {
 			margin: 0;
 		}
@@ -52,21 +65,41 @@
 		tr + tr td {
 			border-top: 1px solid #EEE;
 		}
+
+		#css-queries > * {
+			display: none;
+		}
+
+		@media (pointer: coarse) {#pointer-coarse {display: inline-block}}
+		@media (pointer: fine)   {#pointer-fine   {display: inline-block}}
+		@media (pointer: none)   {#pointer-none   {display: inline-block}}
+		@media (hover: hover)    {#hover-hover    {display: inline-block}}
+		@media (hover: none)     {#hover-none     {display: inline-block}}
+
 	</style>
 </head>
 <body>
 
-	<div layout spaced center>
+	<header layout spaced>
 		<h1>platform-detect</h1>
 		<div flex secondary id="ua"></div>
-	</div>
+	</header>
 
-	<div layout spaced class="layout"></div>
+	<main layout spaced></main>
+
+	<div id="css-queries">
+		@media
+		<div id="pointer-coarse">pointer: coarse</div>
+		<div id="pointer-fine">(pointer: fine)</div>
+		<div id="pointer-none">(pointer: none)</div>
+		<div id="hover-hover">(hover: hover)</div>
+		<div id="hover-none">(hover: none)</div>
+	</div>
 
 	<script src="index.js"></script>
 	<script>
 		var platform = window['platform-detect']
-		var $layout = document.querySelector('.layout')
+		var $main = document.querySelector('main')
 		var $ua = document.querySelector('#ua')
 
 		$ua.innerHTML += navigator.userAgent
@@ -76,29 +109,21 @@
 
 		function renderAll() {
 			console.log('render')
-			$layout.innerHTML = ''
+			$main.innerHTML = ''
 			renderGroup('OS', pick('windows', 'android', 'chromeos', 'macosx', 'linux', 'ios', 'tizen'))
 			renderGroup('Runtime: specific', pick('web', 'pwa', 'uwp', 'cordova', 'chromeapp', 'nwjs', 'electron'))
 			//renderGroup('Rendering engine', pick('edgeHtml', 'webkit', 'blink', 'gecko'))
 			renderGroup('Browser', pick('edge', 'chrome', 'safari'))
-			renderGroup('Runtime: general', pick('node', 'browser', 'worker', 'serviceWorker'))
-			renderGroup('Form factor', pick('devieType', 'tabletMode'))
-			renderGroup('Screen', pick('pixelRatio', 'touchscreen', 'pointer', 'mouse', 'touch', 'orientation', 'landscape', 'portrait'))
-			renderGroup('Other', pick('window', 'console', 'csp', 'dev'))
-
-			var suppl = {}
-			suppl['window.outerWidth'] = window.outerWidth
-			suppl['window.innerWidth'] = window.innerWidth
-			suppl['window.outerHeight'] = window.outerHeight
-			suppl['window.innerHeight'] = window.innerHeight
-
-			renderGroup('Supplementary info', suppl)
+			renderGroup('Runtime: general', pick('node', 'web', 'website', 'worker', 'serviceWorker'))
+			renderGroup('Form factor', pick('formFactor', 'tabletMode'))
+			renderGroup('Screen', pick('pixelRatio', 'touchscreen', 'inputType', 'mouse', 'touch', 'orientation', 'landscape', 'portrait'))
+			renderGroup('Other', pick('hasWindow', 'isConsole', 'csp', 'dev'))
 		}
 
 		function renderGroup(name, data) {
 			if (typeof data === 'object')
 				data = objectToHtmlTable(data)
-			$layout.innerHTML += `
+			$main.innerHTML += `
 				<div>
 					<h2>${name}</h2>
 					${data}
