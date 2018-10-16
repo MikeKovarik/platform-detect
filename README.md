@@ -11,7 +11,23 @@
 
 🃏 Minimalistic isomorphic library for detection of platform, runtime, APIs and more.
 
-Detects Browsers, Node, Electron, NW.JS, PWA, UWP, Web workers and child processes.
+[Check out the demo](http://htmlpreview.github.io/?https://github.com/MikeKovarik/platform-detect/blob/master/example.html)
+
+* No dependencies
+* Small size ~3kB
+* Split into multiple files *"import just what you need"*
+* ... but also available as a bundle of all detectors.
+
+## Detects
+
+* **Systems**: Windows, Android, MacOsX, iOs, Linux
+* **Runtime**
+  * **general:** Node.js, browser, web worker
+  * **specific:** website, PWA, Electron, NW.JS, console app, UWP (Windows Store)
+* **Context**: has rendererer (i.e. has window); is console script (Node, web worker, NW background script, Electron main script); running on SDK build, with DEV context, Dev Tools open or debugger attached.
+* **Form factor**: phone, tablet, desktop, tv
+* **Screen**: touchscreen, input type (touch, mouse), tablet mode (whether keyboard is attached/detached on 2-in-1 like Surface Pro)
+
 
 ## Installation
 
