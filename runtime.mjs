@@ -41,9 +41,9 @@ export var website = web && !pwa
 export var worker = !hasWindow
 	&& typeof self !== 'undefined'
 	&& self.importScripts !== undefined
-	&& self.close !== undefined
+	//&& self.close !== undefined
 
-export var serviceWorker = undefined // TODO
+export var serviceWorker = worker && !!navigator.serviceWorker.controller
 
 // Supports service workers
 //var supportsServiceWorker = typeof navigator !== 'undefined' && !!navigator.serviceWorker && !!navigator.serviceWorker.register

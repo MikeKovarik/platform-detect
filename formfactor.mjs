@@ -1,6 +1,21 @@
-import {ua, registerQuery} from './util.mjs'
-import {edgeWin} from './browser.mjs'
+import {ua, hasWindow, registerQuery} from './util.mjs'
+import {edge} from './browser.mjs'
 
+
+// minimal EventEmitter like API for notifying abou changes
+var listeners = {}
+export function on(name, listener) {
+	listeners[name] = listeners[name] || new Set
+	listeners[name].add(listener)
+}
+export function removeListener(name, listener) {
+	if (listeners[name])
+		listeners[name].delete(listener)
+}
+function emit(name, value) {
+	if (listeners[name])
+		listeners[name].forEach(listener => listener(value))
+}
 
 // string 'portrait' or 'landscape'
 export var orientation
@@ -8,12 +23,10 @@ export var orientation
 export var portrait
 // bool
 export var landscape
-
 // string 'phone,' 'tablet', 'desktop' or 'tv'
 export var formFactor
 // float number of the scale of how many physical pixels are used to render one logical pixel.
 export var pixelRatio
-
 // bool whether the device has a touchscreen. If it has, it's always true, regardless of
 // current primary input type and tablet mode state.
 export var touchscreen
@@ -27,9 +40,10 @@ export var mouse
 // bool. Just like inputType, but is true when touch is the primary input type.
 export var tabletMode
 // bool
+// TODO: implement
 export var hasBattery
 
-if (typeof window !== 'undefined' && typeof navigator !== 'undefined') {
+if (hasWindow) {
 
 	pixelRatio = parseFloat(window.devicePixelRatio.toFixed(2))
 	touchscreen = navigator.maxTouchPoints > 0
@@ -38,19 +52,18 @@ if (typeof window !== 'undefined' && typeof navigator !== 'undefined') {
 	// with 2 years old chromium which doesn't support destructuring syntax.
 	var width = window.screen.width
 	var height = window.screen.height
-	var longer  = Math.max(width, height)
 	var shorter = Math.min(width, height)
 
 	registerQuery('(orientation: portrait)', bool => {
 		portrait = bool
 		landscape = !bool
 		orientation = bool ? 'portrait' : 'landscape'
-		//onupdate && onupdate()
+		emit('orientation', orientation)
 	})
 
 	// WARNING: this doesn't work in Edge as of Windows 1809, tested on Surface Pro.
 	// Works well in chrome though. Edge doesn't change pointer to coarse in tablet mode.
-	if (edgeWin) {
+	if (edge) {
 		updatePointer(touchscreen)
 	} else {
 		registerQuery('(pointer: coarse)', updatePointer)
@@ -60,15 +73,16 @@ if (typeof window !== 'undefined' && typeof navigator !== 'undefined') {
 		mouse = !coarse
 		inputType = coarse ? 'touch'  : 'mouse'
 		tabletMode = coarse
-		formFactor = getFormFactor()
-		//onupdate && onupdate()
+		emit('inputType', inputType)
+		emit('tabletMode', tabletMode)
+		var newFormFactor = getFormFactor()
+		if (newFormFactor !== formFactor) {
+			emit('formFactor', formFactor)
+			formFactor = newFormFactor
+		}
 	}
 
 	function getFormFactor() {
-		console.log("ua.includes('TV')", ua.includes('TV'))
-		console.log("touch", touch)
-		console.log("shorter < 600", shorter < 600)
-		console.log("hasBattery", hasBattery)
 		// TODO: add 'iot' or some other form of window-less app or monitor-less hardware.
 		if (ua.includes('TV'))
 			return 'tv'

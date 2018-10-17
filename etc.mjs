@@ -15,19 +15,12 @@ if (nwjs) {
 } else if (uwp) {
 	dev = Windows.ApplicationModel.Package.current.isDevelopmentMode
 } else if (web) {
-	if (hasWindow) {
-		// Matching window size is a good first indicator but it isn't bulletproof.
-		// It won't work when devtools are detached from main window or in chrome remote debugging.
-		dev = window.outerWidth - window.innerWidth > 50
-			// NOTE: height has to incorporate at least 88px tall toolbar (even greater with touch UI).
-			|| window.outerHeight - window.innerHeight > 140
-	}
-	if (!dev) {
-		// toString on object is only called in developer tools in console.
-		let temp = /./
-		temp.toString = () => dev = true
-		console.log('%c', temp)
-	}
+	// toString on object is only called in developer tools in console.
+	// NOTE: Printing extra empty line into console is not ideal but it's the only reliable way.
+	//       Window size checking seemed to be somewhat reliable but was failing on Tizen smart TV in the end.
+	let temp = /./
+	temp.toString = () => dev = true
+	console.log('%c', temp)
 } else if (node) {
 	dev = process.env.NODE_ENV !== 'production'
 }
