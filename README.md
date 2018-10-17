@@ -38,7 +38,7 @@ npm install platform-detect
 ## Usage
 
 ```js
-import * as platform from 'platform-detect'
+import platform from 'platform-detect'
 
 
 // The script has no window or GUI to render content to.
@@ -110,7 +110,7 @@ Or the new ES Modules.
 
 ```html
 <script type="module">
-import * as platform from './node_modules/platform-detect/index.js'
+import platform from './node_modules/platform-detect/index.js'
 
 platform.on('orientation', orientation => console.log(orientation))
 platform.on('tabletMode', tabletMode => console.log('the device', tabletMode ? 'entered' : 'left', 'tablet mode'))
@@ -120,3 +120,8 @@ platform.on('tabletMode', tabletMode => console.log('the device', tabletMode ? '
 ## API
 
 [Check out the demo for full table of APIs](http://htmlpreview.github.io/?https://github.com/MikeKovarik/platform-detect/blob/master/example.html)
+
+## Ideas for the future
+
+* battery (platform.hasBattery)
+* battery saver mode (there's hardly any battery api, let alone battery saver in it)
