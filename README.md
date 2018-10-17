@@ -38,19 +38,23 @@ npm install platform-detect
 ## Usage
 
 ```js
-import platform from 'platform-detect'
+import * as platform from 'platform-detect'
 
 
 // The script has no window or GUI to render content to.
 // It only runs in console / terminal. (Might be a Node script or WebWorker)
-platform.console
+platform.isConsole
 // App has a window, access to DOM. Can render GUI.
-platform.window
+platform.hasWindow
 
-// Fully functional Node & core modules are available. (Might be an Electron / NWJ.JS app or a Node console script)
+// Fully functional Node & core modules are available. (Might be an Electron / NWJ.JS app or a good old Node console script)
 platform.node
 // App has been loaded as a plain website in a browser.
+platform.website
+// App is served from web (could be website or PWA)
 platform.web
+// App is packaged, compiled or bundled and not served from the web. Could be UWP, Electron, NW.JS, Chrome App, Cordova, etc...
+platform.packaged
 // Script is executed inside Web Worker.
 platform.worker
 
@@ -61,3 +65,58 @@ platform.electron
 platform.nwjs
 platform.cordova
 ```
+
+Or import just what you need
+
+```js
+import {windows, android, linux, macosx, tizen} from 'platform-detect/os.mjs'
+import {chrome, edge, safari} from 'platform-detect/browser.mjs'
+import {inputType, mouse, touch, touchscreen, tabletMode, formFactor} from 'platform-detect/formfactor.mjs'
+
+if (formFactor === 'tv' && tizen) {
+  console.log(`I'm a Samsung Smart TV!`)
+}
+
+if (windows && edge && (uwp || pwa)) {
+  console.log(`I should use Fluent Design System`)
+} else if (android || chromeos) {
+  console.log(`I should use Material Design Language`)
+}
+
+if (touchscreen) {
+  console.log(`This is a device with touchscreen`)
+  if (!touch) {
+    console.log(`But mouse is currently the primary input type`)
+    console.log('inputType', inputType) // 'mouse'
+    console.log(`The device is likely in tablet mode (Surface Pro with attached keyboard)`)
+    console.log('tabletMode', tabletMode) // true
+  }
+}
+
+```
+
+You can choose between the old UMD module.
+
+```html
+<script src="./node_modules/platform-detect/index.js"></script>
+```
+```js
+var platform = self['platform-detect']
+
+console.log('pixel ratio of this device is', platform.pixelRatio)
+```
+
+Or the new ES Modules.
+
+```html
+<script type="module">
+import * as platform from './node_modules/platform-detect/index.js'
+
+platform.on('orientation', orientation => console.log(orientation))
+platform.on('tabletMode', tabletMode => console.log('the device', tabletMode ? 'entered' : 'left', 'tablet mode'))
+</script>
+```
+
+## API
+
+[Check out the demo for full table of APIs](http://htmlpreview.github.io/?https://github.com/MikeKovarik/platform-detect/blob/master/example.html)

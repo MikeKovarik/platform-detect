@@ -3,26 +3,29 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+	<title>platform-detect</title>
 	<style>
 		* {
 			box-sizing: border-box;
+		}
+		html {
+			background-color: #f3f3f3;
+			/*
+			background-image: linear-gradient(180deg, #f3f3f3 0%, #d2d2d2 100%);
+			background-attachment: fixed;
+			*/
 		}
 		body {
 			margin: 0;
 			padding: 32px;
 			font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+			color: #0a254e;
 		}
 		[layout] {
 			display: flex;
 		}
 		[layout][center] {
 			align-items: center;
-		}
-		[layout][spaced] {
-			margin: -16px;
-		}
-		[layout][spaced] > * {
-			margin: 16px;
 		}
 		[flex] {
 			flex: 1;
@@ -32,103 +35,199 @@
 			opacity: 0.6;
 		}
 
+		.wrap-layout {
+			display: flex;
+			margin: -16px;
+			flex-wrap: wrap;
+		}
+		.wrap-layout > * {
+			margin: 16px;
+		}
+
+		a {
+			color: inherit;
+			text-decoration: none;
+		}
+
 		header {
 			margin-bottom: 16px !important;
 			align-items: center;
 		}
-		@media only screen and (max-width: 600px) {
+		header #ua {
+			margin: 8px 0;
+		}
+
+		@media only screen and (max-width: 599px) {
+			.wrap-layout > * {
+				width: 100%;
+			}
 			header {
 				flex-direction: column;
 				align-items: flex-start;
 			}
 		}
-
-		main {
-			flex-wrap: wrap;
+		@media only screen and (min-width: 600px) {
+			.wrap-layout > * {
+				width: 240px;
+			}
+			header h1 {
+				width: 272px;
+			}
 		}
-		main > * {
-			width: 240px;
+
+		table {
+			width: 100%;
+			border-spacing: 0;
 		}
 
-		h1, h2 {
+		h1,
+		h2 {
 			margin: 0;
+		}
+		* + h1,
+		* + h2 {
+			margin-top: 32px;
 		}
 		h2 {
 			margin-bottom: 8px;
 			font-weight: 500;
 		}
-		table {
-			font-family: monospace;
-			font-size: 16px;
-			width: 100%;
-		}
 		tr + tr td {
-			border-top: 1px solid #EEE;
+			border-top: 1px solid rgba(0,0,0,0.1);
 		}
 
-		#css-queries > * {
+		#css-queries > *:not(:first-child) {
 			display: none;
 		}
 
-		@media (pointer: coarse) {#pointer-coarse {display: inline-block}}
-		@media (pointer: fine)   {#pointer-fine   {display: inline-block}}
-		@media (pointer: none)   {#pointer-none   {display: inline-block}}
-		@media (hover: hover)    {#hover-hover    {display: inline-block}}
-		@media (hover: none)     {#hover-none     {display: inline-block}}
+		@media (pointer: coarse) {#pointer-coarse {display: inline-block !important}}
+		@media (pointer: fine)   {#pointer-fine   {display: inline-block !important}}
+		@media (pointer: none)   {#pointer-none   {display: inline-block !important}}
+		@media (hover: hover)    {#hover-hover    {display: inline-block !important}}
+		@media (hover: none)     {#hover-none     {display: inline-block !important}}
 
 	</style>
 </head>
 <body>
 
 	<header layout spaced>
-		<h1>platform-detect</h1>
+		<h1><a href="https://github.com/MikeKovarik/platform-detect">platform-detect</a></h1>
 		<div flex secondary id="ua"></div>
 	</header>
 
-	<main layout spaced></main>
+	<main class="wrap-layout"></main>
 
-	<div id="css-queries">
-		@media
-		<div id="pointer-coarse">pointer: coarse</div>
-		<div id="pointer-fine">(pointer: fine)</div>
-		<div id="pointer-none">(pointer: none)</div>
-		<div id="hover-hover">(hover: hover)</div>
-		<div id="hover-none">(hover: none)</div>
-	</div>
+	<h2>Additional Device Info</h2>
+
+	<section id="additional-info" class="wrap-layout" secondary>
+		<div>
+			<h2>CSS Queries</h2>
+			<p id="css-queries">
+				<span>@media</span>
+				<span id="pointer-coarse">(pointer: coarse)</span>
+				<span id="pointer-fine">(pointer: fine)</span>
+				<span id="pointer-none">(pointer: none)</span>
+				<span id="hover-hover">(hover: hover)</span>
+				<span id="hover-none">(hover: none)</span>
+			</p>
+		</div>
+	</section>
+
+	<section secondary id="error"></section>
+
+	<script>
+		var $error = document.querySelector('#error')
+		window.addEventListener('error', function(e) {
+			$error.innerHTML += '<h2>Error</h2>' + (e.error.stack || e.error.message)
+		})
+	</script>
 
 	<script src="index.js"></script>
 	<script>
 		var platform = window['platform-detect']
 		var $main = document.querySelector('main')
 		var $ua = document.querySelector('#ua')
+		var $additionalInfo = document.querySelector('#additional-info')
+		var $browserApi = document.querySelector('#browser-api')
 
-		$ua.innerHTML += navigator.userAgent
-
-		platform.onupdate = renderAll
 		renderAll()
+		// library's way of notifying you about changes (to input typu and formfactor change i.e. tablet mode)
+		platform.on('orientation', renderAll)
+		platform.on('inputType', renderAll)
+		platform.on('tabletMode', renderAll)
+		platform.on('formFactor', renderAll)
+		// this is here only because we want to quickly emulate devices in chrome dev tools which changes
+		// useragent (which cannot be listened because it doesnt change in real world) and screen size
+		//window.addEventListener('resize', debounce(renderAll, 150))
+
+		function debounce(func, delay) {
+			var timeout
+			return function(...args) {
+				clearTimeout(timeout)
+				var context = this
+				timeout = setTimeout(() => func.call(context, ...args), delay)
+			}
+		}
 
 		function renderAll() {
 			console.log('render')
+			$ua.innerHTML = navigator.userAgent
 			$main.innerHTML = ''
-			renderGroup('OS', pick('windows', 'android', 'chromeos', 'macosx', 'linux', 'ios', 'tizen'))
-			renderGroup('Runtime: specific', pick('web', 'pwa', 'uwp', 'cordova', 'chromeapp', 'nwjs', 'electron'))
-			//renderGroup('Rendering engine', pick('edgeHtml', 'webkit', 'blink', 'gecko'))
-			renderGroup('Browser', pick('edge', 'chrome', 'safari'))
-			renderGroup('Runtime: general', pick('node', 'web', 'website', 'worker', 'serviceWorker'))
-			renderGroup('Form factor', pick('formFactor', 'tabletMode'))
-			renderGroup('Screen', pick('pixelRatio', 'touchscreen', 'inputType', 'mouse', 'touch', 'orientation', 'landscape', 'portrait'))
-			renderGroup('Other', pick('hasWindow', 'isConsole', 'csp', 'dev'))
+			renderMain('OS', pick('windows', 'android', 'chromeos', 'macosx', 'ios', 'tizen', 'linux', 'linuxBased'))
+			renderMain('Runtime: specific', pick('website', 'pwa', 'uwp', 'cordova', 'chromeapp', 'nwjs', 'electron'))
+			renderMain('Runtime: general', pick('node', 'web', 'worker', 'serviceWorker'))
+			renderMain('Browser', pick('chrome', 'safari', 'edge', /*'edgeWin', 'edgeIos', 'edgeAndroid',*/ 'firefox'))
+			renderMain('Rendering engine', pick('edgeHtml', 'webkit', 'blink', 'gecko'))
+			renderMain('Form factor', pick('formFactor', 'tabletMode', 'inputType', 'mouse', 'touch'))
+			renderMain('Screen', pick('pixelRatio', 'touchscreen', 'orientation', 'landscape', 'portrait'))
+			renderMain('Other', pick('hasWindow', 'isConsole', 'csp', 'dev'))
+
+			renderAdd('Other Web APIs', {
+				'platform': navigator.platform,
+				'deviceMemory': window.clientInformation.deviceMemory,
+				'hardwareConcurrency': window.clientInformation.hardwareConcurrency,
+				'language': window.clientInformation.language,
+				'languages': window.clientInformation.languages,
+			})
+			if (navigator.getBattery) {
+				navigator.getBattery().then(battery => {
+					battery.addEventListener('chargingchange', renderBattery)
+					battery.addEventListener('levelchange', renderBattery)
+					battery.addEventListener('chargingtimechange', renderBattery)
+					battery.addEventListener('dischargingtimechange', renderBattery)
+					var batteryDiv
+					function renderBattery() {
+						var bat = pickObject(battery, 'charging', 'chargingTime', 'dischargingTime', 'level')
+						batteryDiv = renderAdd('Battery', bat, batteryDiv)
+					}
+					renderBattery()
+				})
+			}
 		}
 
-		function renderGroup(name, data) {
+		function renderMain(name, data, node) {
+			node = createDom(name, data, node)
+			return renderToDom($main, node)
+		}
+
+		function renderAdd(name, data, node) {
+			node = createDom(name, data, node)
+			return renderToDom($additionalInfo, node)
+		}
+
+		function renderToDom(container, node) {
+			if (!container.contains(node))
+				container.appendChild(node)
+			return node
+		}
+
+		function createDom(name, data, node) {
 			if (typeof data === 'object')
 				data = objectToHtmlTable(data)
-			$main.innerHTML += `
-				<div>
-					<h2>${name}</h2>
-					${data}
-				</div>
-			`
+			if (!node)
+				node = document.createElement('div')
+			node.innerHTML = `<h2>${name}</h2>${data}`
+			return node
 		}
 
 		function objectToHtmlTable(object) {
