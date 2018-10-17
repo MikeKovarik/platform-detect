@@ -173,7 +173,7 @@
 			console.log('render')
 			$ua.innerHTML = navigator.userAgent
 			$main.innerHTML = ''
-			renderMain('OS', pick('windows', 'android', 'chromeos', 'macosx', 'ios', 'tizen', 'linux', 'linuxBased'))
+			renderMain('OS', pick('windows', 'android', 'chromeos', 'macos', 'ios', 'tizen', 'linux', 'linuxBased'))
 			renderMain('Runtime: specific', pick('website', 'pwa', 'uwp', 'cordova', 'chromeapp', 'nwjs', 'electron'))
 			renderMain('Runtime: general', pick('node', 'web', 'worker', 'serviceWorker'))
 			renderMain('Browser', pick('chrome', 'safari', 'edge', /*'edgeWin', 'edgeIos', 'edgeAndroid',*/ 'firefox'))
