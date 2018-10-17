@@ -20,7 +20,7 @@
 
 ## Detects
 
-* **Systems**: Windows, Android, MacOsX, iOs, Linux
+* **Systems**: Windows, Android, macOS, iOS, Linux
 * **Runtime**
   * **general:** Node.js, browser, web worker
   * **specific:** website, PWA, Electron, NW.JS, console app, UWP (Windows Store)
@@ -69,7 +69,7 @@ platform.cordova
 Or import just what you need
 
 ```js
-import {windows, android, linux, macosx, tizen} from 'platform-detect/os.mjs'
+import {windows, android, linux, macos, tizen} from 'platform-detect/os.mjs'
 import {chrome, edge, safari} from 'platform-detect/browser.mjs'
 import {inputType, mouse, touch, touchscreen, tabletMode, formFactor} from 'platform-detect/formfactor.mjs'
 

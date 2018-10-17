@@ -10,5 +10,5 @@ export var tizen      = hasWindow ? ua.includes('Tizen') : false // TODO
 export var ios        = hasWindow && /iPad|iPhone|iPod/.test(ua) && !window.MSStream || false
 export var linuxBased = android || tizen
 export var windows    = node ? process.platform === 'win32'  : ua.includes('Windows')
-export var macosx     = node ? process.platform === 'darwin' : ua.includes('Macintosh')
+export var macos      = node ? process.platform === 'darwin' : ua.includes('Macintosh')
 export var linux      = node ? process.platform === 'linux'  : ua.includes('Linux') && !linuxBased
