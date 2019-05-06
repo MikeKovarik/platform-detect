@@ -1,13 +1,15 @@
 # platform-detect
 
+[![Build Status](https://travis-ci.org/MikeKovarik/platform-detect.svg)](https://travis-ci.org/MikeKovarik/platform-detect)
 [![NPM](https://img.shields.io/npm/v/platform-detect.svg)](https://www.npmjs.com/package/platform-detect)
+[![License](http://img.shields.io/npm/l/platform-detect.svg?style=flat)](LICENSE)
 [![Dependency Status](https://david-dm.org/MikeKovarik/platform-detect.svg)](https://david-dm.org/MikeKovarik/platform-detect)
 [![devDependency Status](https://david-dm.org/MikeKovarik/platform-detect/dev-status.svg)](https://david-dm.org/MikeKovarik/platform-detect#info=devDependencies)
-[![Maintenance Status](http://img.shields.io/badge/status-maintained-brightgreen.svg)](https://github.com/MikeKovarik/platform-detect/pulse)
+
 [![Known Vulnerabilities](https://snyk.io/test/github/MikeKovarik/platform-detect/badge.svg)](https://snyk.io/test/github/MikeKovarik/platform-detect)
+[![Maintainability](https://api.codeclimate.com/v1/badges/f4c0ee405c46126d6325/maintainability)](https://codeclimate.com/github/MikeKovarik/platform-detect/maintainability)
 [![Discord](https://img.shields.io/discord/419198557363634178.svg)](https://discord.gg/v2mUmeD)
 [![Gitter](https://badges.gitter.im/MikeKovarik/platform-detect.svg)](https://gitter.im/MikeKovarik/platform-detect?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![Maintainability](https://api.codeclimate.com/v1/badges/f4c0ee405c46126d6325/maintainability)](https://codeclimate.com/github/MikeKovarik/platform-detect/maintainability)
 
 🃏 Minimalistic isomorphic library for detection of platform, runtime, APIs and more.
 
@@ -41,11 +43,11 @@ npm install platform-detect
 import platform from 'platform-detect'
 
 
-// The script has no window or GUI to render content to.
+// The script has no GUI to render content to.
 // It only runs in console / terminal. (Might be a Node script or WebWorker)
-platform.isConsole
+platform.terminal
 // App has a window, access to DOM. Can render GUI.
-platform.hasWindow
+platform.gui
 
 // Fully functional Node & core modules are available. (Might be an Electron / NWJ.JS app or a good old Node console script)
 platform.node
@@ -99,11 +101,10 @@ You can choose between the old UMD module.
 
 ```html
 <script src="./node_modules/platform-detect/index.js"></script>
-```
-```js
-var platform = self['platform-detect']
-
+<script>
+var platform = window['platform-detect']
 console.log('pixel ratio of this device is', platform.pixelRatio)
+</script>
 ```
 
 Or the new ES Modules.
@@ -111,7 +112,7 @@ Or the new ES Modules.
 ```html
 <script type="module">
 import platform from './node_modules/platform-detect/index.js'
-
+console.log(platform.pwa ? `I'm installed PWA app` : `I'm just a website`)
 platform.on('orientation', orientation => console.log(orientation))
 platform.on('tabletMode', tabletMode => console.log('the device', tabletMode ? 'entered' : 'left', 'tablet mode'))
 </script>
