@@ -1,9 +1,11 @@
 {
   "name": "platform-detect",
-  "version": "1.2.0",
+  "version": "2.0.0",
   "description": "🃏 Minimalistic isomorphic library for detection of platform, runtime, APIs and more.",
   "author": "Mike Kovarik",
   "license": "MIT",
+  "keywords": ["platform", "detect", "browser", "node", "pwa", "web", "chromium", "uwp", "electron", "touch", "tablet", "phone", "os", "formfactor"],
+  "homepage": "http://mutiny.cz/platform-detect",
   "bugs": "https://github.com/MikeKovarik/platform-detect/issues/",
   "repository": {
     "type": "git",
@@ -14,7 +16,7 @@
     "build": "rollup -c rollup.config.prod.js"
   },
   "devDependencies": {
-    "rollup": "^0.59.4",
+    "rollup": "^1.11.3",
     "rollup-plugin-notify": "^1.0.1",
     "rollup-plugin-uglify-es": "0.0.1"
   }
