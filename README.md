@@ -39,16 +39,19 @@ npm install platform-detect
 
 ## Usage
 
+Import everything
+
 ```js
 import platform from 'platform-detect'
-
-
 // The script has no GUI to render content to.
 // It only runs in console / terminal. (Might be a Node script or WebWorker)
 platform.terminal
 // App has a window, access to DOM. Can render GUI.
 platform.gui
+```
 
+```js
+var platform = require('platform-detect')
 // Fully functional Node & core modules are available. (Might be an Electron / NWJS app or a good old Node console script)
 platform.node
 // App has been loaded as a plain website in a browser.
@@ -59,13 +62,6 @@ platform.web
 platform.packaged
 // Script is executed inside Web Worker.
 platform.worker
-
-// App has been loaded as a PWA / UWP / Electron / NW.JS / Cordova app
-platform.pwa
-platform.uwp
-platform.electron
-platform.nwjs
-platform.cordova
 ```
 
 Or import just what you need
@@ -73,7 +69,7 @@ Or import just what you need
 ```js
 import {windows, android, linux, macos, tizen} from 'platform-detect/os.mjs'
 import {chrome, edge, safari} from 'platform-detect/browser.mjs'
-import {inputType, mouse, touch, touchscreen, tabletMode, formFactor} from 'platform-detect/formfactor.mjs'
+import {input, mouse, touch, formFactor} from 'platform-detect/formfactor.mjs'
 
 if (formFactor === 'tv' && tizen) {
   console.log(`I'm a Samsung Smart TV!`)
@@ -85,13 +81,14 @@ if (windows && edge && (uwp || pwa)) {
   console.log(`I should use Material Design Language`)
 }
 
-if (touchscreen) {
-  console.log(`This is a device with touchscreen`)
-  if (!touch) {
-    console.log(`But mouse is currently the primary input type`)
-    console.log('inputType', inputType) // 'mouse'
-    console.log(`The device is likely in tablet mode (Surface Pro with attached keyboard)`)
-    console.log('tabletMode', tabletMode) // true
+if (touch) {
+  console.log(`I'm a device with touchscreen`)
+  if (mouse) {
+    console.log(`But I also have a mouse (it's the primary input type now)`)
+    console.log(`I'm a laptop with touchscreen or a Surface Pro with attached keyboard`)
+  } else {
+    console.log(`Mouse is currently not the primary input type`)
+    console.log(`I might be phone, tablet, or Surface Pro in tablet mode`)
   }
 }
 
@@ -114,7 +111,6 @@ Or the new ES Modules.
 import platform from './node_modules/platform-detect/index.js'
 console.log(platform.pwa ? `I'm installed PWA app` : `I'm just a website`)
 platform.on('orientation', orientation => console.log(orientation))
-platform.on('tabletMode', tabletMode => console.log('the device', tabletMode ? 'entered' : 'left', 'tablet mode'))
 </script>
 ```
 
