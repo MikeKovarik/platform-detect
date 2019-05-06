@@ -1,49 +1,46 @@
-import {hasWindow} from './util.mjs'
+import {p} from './util.mjs'
 
+export default p
 
 // Fully functional Node & core modules.
 // it is true for Node.js, Electron, NW.JS
 // it is false for browsers with shims or bundles of some Node modules (shimmed process, EventEmitter, etc..)
-export var node = typeof process !== 'undefined'
+p.node = typeof process !== 'undefined'
 	&& !!process.versions
 	&& !!process.versions.node
 
 // Detects if the APP is launched as standalone Progressive Web App. Still a website, but looking like OS app, without url bar.
 // TODO: WARNING: this returns true even for popup windows created with window.open()
-export var pwa = hasWindow
+p.pwa = p.gui
 	&& window.matchMedia('(display-mode: standalone)').matches
 	&& (document.head.querySelector('[rel="manifest"]') !== null)
 
 // Windows 10 app - Universal Windows Platform.
-export var uwp = typeof Windows !== 'undefined'
-	&& typeof MSApp !== 'undefined'
+p.uwp = typeof Windows !== 'undefined' && typeof MSApp !== 'undefined'
 
 // Node + Chromium
-export var nwjs     = !!(node && process.versions.nw)
-export var electron = !!(node && process.versions.electron)
+p.nwjs     = !!(p.node && process.versions.nw)
+p.electron = !!(p.node && process.versions.electron)
 
 // Cordova mobile app
-export var cordova = !!(hasWindow && window.cordova)
+p.cordova = !!(p.gui && window.cordova)
 
 // Chrome app (Chrome OS app)
-export var chromeapp = false // todo
+p.chromeapp = undefined // todo
 
 // The platform requires app to be compiled, bundled or packaged.
-export var packaged = uwp || nwjs || electron || cordova || chromeapp
+p.packaged = p.uwp || p.nwjs || p.electron || p.cordova || p.chromeapp
 
 // The app runs inside browser and is served from a server or browser cache.
-export var web = !node && !packaged
+p.web = !p.node && !p.packaged
 
 // App is a plain old webpage and not a PWA.
-export var website = web && !pwa
+p.website = p.web && !p.pwa
 
 // Script is executed inside Web Worker
-export var worker = !hasWindow
+p.worker = !p.gui
 	&& typeof self !== 'undefined'
 	&& self.importScripts !== undefined
 	//&& self.close !== undefined
 
-export var serviceWorker = worker && !!navigator.serviceWorker.controller
-
-// Supports service workers
-//var supportsServiceWorker = typeof navigator !== 'undefined' && !!navigator.serviceWorker && !!navigator.serviceWorker.register
+p.serviceWorker = p.worker && !!navigator.serviceWorker.controller
