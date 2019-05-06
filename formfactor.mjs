@@ -62,7 +62,6 @@ if (p.gui) {
 		})
 
 		registerQuery('(any-pointer: coarse)', bool => {
-			console.log('(any-pointer: coarse)', bool)
 			p.touch = bool
 			emit('touch', p.touch)
 		})
@@ -99,13 +98,3 @@ if (p.gui) {
 	}
 
 }
-
-/*
-navigator.getBattery().then(function(battery) {
-    if (battery.charging && battery.chargingTime === 0) {
-        console.log("I'm a desktop")
-    } else {
-        console.log("I'm not a desktop")
-    }
-});
-*/

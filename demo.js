@@ -1,22 +1,4 @@
-import {registerQuery} from './util.mjs'
-
-registerQuery('(pointer: coarse)', bool => {
-	console.log('(pointer: coarse)', bool)
-})
-
-registerQuery('(pointer: fine)', bool => {
-	console.log('(pointer: fine)', bool)
-})
-
-registerQuery('(hover: hover)', bool => {
-	console.log('(hover: hover)', bool)
-	//console.log('primary', bool ? 'mouse' : 'touch')
-})
-
-
-import platform from './index.mjs'
-window.platform = platform
-//let platform = window['platform-detect']
+let platform = window['platform-detect']
 let $main = document.querySelector('main')
 let $ua = document.querySelector('#ua')
 let $additionalInfo = document.querySelector('#additional-info')

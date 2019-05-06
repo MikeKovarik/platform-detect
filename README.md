@@ -210,5 +210,6 @@ platform.on('input', input => {
 ## TO-DOs & Ideas for the future
 
 * even better documentation
+* fix dev mode detection
 * battery (platform.hasBattery)
 * battery saver mode (there's hardly any battery api, let alone battery saver in it)
