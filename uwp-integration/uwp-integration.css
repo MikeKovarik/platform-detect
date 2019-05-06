@@ -1,0 +1,34 @@
+body {
+    font-family: Segoe UI;
+    padding: 1rem;
+}
+
+[light] {
+    background-color: #FFF;
+    color: #000;
+}
+[dark] {
+    background-color: #000;
+    color: #FFF;
+}
+
+span.color {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-right: 4px;
+}
+
+#layout {
+    display: flex;
+    margin: 0.5rem -0.5rem;
+}
+#layout > * {
+    margin: 0.5rem;
+    flex: 1;
+}
+#status,
+#log {
+    font-family: Consolas;
+    white-space: pre-line;
+}
