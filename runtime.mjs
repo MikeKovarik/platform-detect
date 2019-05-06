@@ -43,4 +43,4 @@ p.worker = !p.gui
 	&& self.importScripts !== undefined
 	//&& self.close !== undefined
 
-p.serviceWorker = p.worker && !!navigator.serviceWorker.controller
+//p.serviceWorker = p.worker && !!navigator.serviceWorker.controller

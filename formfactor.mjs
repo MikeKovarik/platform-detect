@@ -3,19 +3,6 @@ import './browser.mjs' // edge
 
 export default p
 
-/*
-p.orientation     string 'portrait' or 'landscape'
-p.portrait        booltouchscreen
-p.landscape       bool
-p.formFactor      string 'phone,' 'tablet', 'desktop' or 'tv'
-p.pixelRatio      float number of the scale of how many physical pixels are used to render one logical pixel.
-p.input       string of current primary input type 'mouse' or 'touch'.
-                  It's watched and may change when keyboard is attached/detached on hybrid devices.
-p.touch           bool The device has a touchscreen. Always true, regardless of current primary input type, tablet mode, etc...
-p.mouse           bool True when primary input type is mouse (desktops, laptops)
-p.gamepad         bool.
-*/
-
 // minimal EventEmitter like API for notifying abou changes
 var listeners = {}
 p.on = function(name, listener) {

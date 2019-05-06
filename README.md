@@ -49,11 +49,11 @@ platform.terminal
 // App has a window, access to DOM. Can render GUI.
 platform.gui
 
-// Fully functional Node & core modules are available. (Might be an Electron / NWJ.JS app or a good old Node console script)
+// Fully functional Node & core modules are available. (Might be an Electron / NWJS app or a good old Node console script)
 platform.node
 // App has been loaded as a plain website in a browser.
 platform.website
-// App is served from web (could be website or PWA)
+// App is served from the web (could be website or PWA)
 platform.web
 // App is packaged, compiled or bundled and not served from the web. Could be UWP, Electron, NW.JS, Chrome App, Cordova, etc...
 platform.packaged
@@ -122,7 +122,97 @@ platform.on('tabletMode', tabletMode => console.log('the device', tabletMode ? '
 
 [Check out the demo for full table of APIs](http://htmlpreview.github.io/?https://github.com/MikeKovarik/platform-detect/blob/master/example.html)
 
-## Ideas for the future
+By importing the `index.js` bundle you get all of the below. Or you can pick only certain file with the checks you need.
 
+* **`terminal`** bool
+<br>Script running in console or terminal (Node, Worker)
+* **`gui`** bool
+<br>App has a window, access to DOM. Can render GUI
+
+### `runtime.mjs`
+
+* **`node`** bool
+<br>True when Node.js & core modules are available. (Node, Electron, NWJS app)
+* **`pwa`** bool
+<br>App has been loaded as a PWA with separate window. Not just a plain website.
+* **`web`** bool
+<br>App is served from the web (could be website or PWA)
+* **`website`** bool
+<br>App has been loaded as a plain website in a browser (and is not PWA)
+* **`packaged`** bool
+<br>App is packaged, compiled or bundled and not served from the web (UWP, Electron, NW.JS, Chrome App, Cordova, etc...)
+* **`worker`** bool
+<br>Script is executed inside Web Worker
+* **`nwjs`** bool
+* **`electron`** bool
+* **`cordova`** bool
+* **`uwp`** bool
+* ~~**`chromeapp`** bool~~
+
+### `formfactor.mjs`
+
+* **`orientation`** string, event
+<br>values: `portrait` or `landscape`
+* **`portrait`** bool, event
+* **`landscape`** bool, event
+* **`formFactor`** string, event
+<br>values: `phone`, `tablet`, `desktop` or `tv`
+* **`pixelRatio`** float
+<br>number of the scale of how many physical pixels are used to render one logical pixel.
+* **`input`** string, event
+<br>values: `mouse` or `touch`
+<br>Current primary input type. It's watched and may change when keyboard attached/detached on hybrid devices.
+* **`touch`** bool
+<br>Always `true` if the device has a touchscreen, regardless of current primary input type, tablet mode, etc...
+* **`mouse`** bool, event
+<br>True when primary input type is mouse (desktops, laptops, hybrid with attached keyboards)
+* **`gamepad`** bool
+
+### `browser.mjs`
+
+Browsers:
+
+* **`edge`** bool
+* **`chrome`** bool
+* **`safari`** bool
+* **`opera`** bool
+* **`firefox`** bool
+
+Rendering engines:
+
+* **`edgeHtml`** bool
+* **`blink`** bool
+* **`webkit`** bool
+* **`gecko`** bool
+
+### `os.mjs`
+
+* **`android`** bool
+* **`chromeos`** bool
+* **`tizen`** bool
+* **`ios`** bool
+* **`linuxBased`** bool
+* **`windows`** bool
+* **`macos`** bool
+* **`linux`** bool
+
+### Events
+
+Some aspects can change during app's life. You can listen to these changes with EventEmitter-like api.
+
+```js
+platform.on('orientation', orientation => console.log('orientation changed': orientation))
+
+platform.on('input', input => {
+	if (input === 'mouse)
+		console.log('keyboard attached')
+	else
+		console.log('tablet mode')
+})
+```
+
+## TO-DOs & Ideas for the future
+
+* even better documentation
 * battery (platform.hasBattery)
 * battery saver mode (there's hardly any battery api, let alone battery saver in it)
