@@ -1,0 +1,170 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+	<title>platform-detect</title>
+	<style>
+		* {
+			box-sizing: border-box;
+		}
+		html {
+			background-color: #f3f3f3;
+			/*
+			background-image: linear-gradient(180deg, #f3f3f3 0%, #d2d2d2 100%);
+			background-attachment: fixed;
+			*/
+		}
+		body {
+			margin: 0;
+			padding: 32px;
+			font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+			color: #0a254e;
+		}
+		[layout] {
+			display: flex;
+		}
+		[layout][center] {
+			align-items: center;
+		}
+		[flex] {
+			flex: 1;
+		}
+		[secondary] {
+			font-size: 13px;
+			opacity: 0.6;
+		}
+
+		.wrap-layout {
+			display: flex;
+			margin: -16px;
+			flex-wrap: wrap;
+		}
+		.wrap-layout > * {
+			margin: 16px;
+		}
+
+		.green {
+			color: #6e8f1f;
+		}
+		.red {
+			color: #841515;
+		}
+
+		a {
+			color: inherit;
+			text-decoration: none;
+		}
+
+		header {
+			margin-bottom: 16px !important;
+			align-items: center;
+		}
+		header #ua {
+			margin: 8px 0;
+		}
+
+		@media only screen and (max-width: 599px) {
+			.wrap-layout > * {
+				width: 100%;
+			}
+			header {
+				flex-direction: column;
+				align-items: flex-start;
+			}
+		}
+		@media only screen and (min-width: 600px) {
+			.wrap-layout > * {
+				width: 240px;
+			}
+			header h1 {
+				width: 272px;
+			}
+		}
+
+		table {
+			width: 100%;
+			border-spacing: 0;
+		}
+
+		h1,
+		h2 {
+			margin: 0;
+		}
+		* + h1,
+		* + h2 {
+			margin-top: 32px;
+		}
+		h2 {
+			margin-bottom: 8px;
+			font-weight: 500;
+		}
+		tr + tr td {
+			border-top: 1px solid rgba(0,0,0,0.1);
+		}
+
+		#css-queries > *:not(br) {
+			display: none;
+		}
+
+		@media (pointer: coarse) {#pointer-coarse {display: inline-block !important}}
+		@media (pointer: fine)   {#pointer-fine   {display: inline-block !important}}
+		@media (pointer: none)   {#pointer-none   {display: inline-block !important}}
+		@media (any-pointer: coarse) {#any-pointer-coarse {display: inline-block !important}}
+		@media (any-pointer: fine)   {#any-pointer-fine   {display: inline-block !important}}
+		@media (any-pointer: none)   {#any-pointer-none   {display: inline-block !important}}
+		@media (hover: hover)    {#hover-hover    {display: inline-block !important}}
+		@media (hover: none)     {#hover-none     {display: inline-block !important}}
+		@media (any-hover: hover)    {#any-hover-hover    {display: inline-block !important}}
+		@media (any-hover: none)     {#any-hover-none     {display: inline-block !important}}
+
+	</style>
+</head>
+<body>
+
+	<header layout spaced>
+		<h1><a href="https://github.com/MikeKovarik/platform-detect">platform-detect</a></h1>
+		<div flex secondary id="ua"></div>
+	</header>
+
+	<main class="wrap-layout"></main>
+
+	<h2>Additional Device Info</h2>
+
+	<section id="additional-info" class="wrap-layout" secondary>
+		<div>
+			<h2>CSS Queries</h2>
+			<p id="css-queries">
+				<!--span>@media</span-->
+				<span id="pointer-coarse">(pointer: coarse)</span>
+				<span id="pointer-fine">(pointer: fine)</span>
+				<span id="pointer-none">(pointer: none)</span>
+				<br>
+				<span id="any-pointer-coarse">(any-pointer: coarse)</span>
+				<span id="any-pointer-fine">(any-pointer: fine)</span>
+				<span id="any-pointer-none">(any-pointer: none)</span>
+				<br>
+				<span id="hover-hover">(hover: hover)</span>
+				<span id="hover-none">(hover: none)</span>
+				<br>
+				<span id="any-hover-hover">(any-hover: hover)</span>
+				<span id="any-hover-none">(any-hover: none)</span>
+			</p>
+		</div>
+	</section>
+
+	<section secondary id="error"></section>
+
+	<section secondary id="debuglog"></section>
+
+	<script>
+		let $error = document.querySelector('#error')
+		window.addEventListener('error', function(e) {
+			$error.innerHTML += '<h2>Error</h2>' + (e.error.stack || e.error.message)
+		})
+	</script>
+
+	<script src="demo.mjs" type="module"></script>
+
+</body>
+</html>
