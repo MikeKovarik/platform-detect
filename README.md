@@ -108,7 +108,7 @@ Or the new ES Modules.
 
 ```html
 <script type="module">
-import platform from './node_modules/platform-detect/index.js'
+import platform from './node_modules/platform-detect/index.mjs'
 console.log(platform.pwa ? `I'm installed PWA app` : `I'm just a website`)
 platform.on('orientation', orientation => console.log(orientation))
 </script>
