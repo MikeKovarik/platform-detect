@@ -116,7 +116,7 @@ platform.on('orientation', orientation => console.log(orientation))
 
 ## API
 
-[Check out the demo for full table of APIs](http://htmlpreview.github.io/?https://github.com/MikeKovarik/platform-detect/blob/master/example.html)
+[Check out the demo for full table of APIs](http://htmlpreview.github.io/?https://github.com/MikeKovarik/platform-detect/blob/master/demo.html)
 
 By importing the `index.js` bundle you get all of the below. Or you can pick only certain file with the checks you need.
 
