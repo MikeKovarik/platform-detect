@@ -12,4 +12,4 @@ p.ios        = p.gui && /iPad|iPhone|iPod/.test(ua) && !window.MSStream || false
 p.linuxBased = p.android || p.tizen
 p.windows    = p.node ? process.platform === 'win32'  : ua.includes('Windows')
 p.macos      = p.node ? process.platform === 'darwin' : ua.includes('Macintosh')
-p.linux      = p.node ? process.platform === 'linux'  : ua.includes('Linux') && !linuxBased
+p.linux      = p.node ? process.platform === 'linux'  : ua.includes('Linux') && !p.linuxBased && !p.macos
