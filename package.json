@@ -1,10 +1,25 @@
 {
   "name": "platform-detect",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "🃏 Minimalistic isomorphic library for detection of platform, runtime, APIs and more.",
   "author": "Mike Kovarik",
   "license": "MIT",
-  "keywords": ["platform", "detect", "browser", "node", "pwa", "web", "chromium", "uwp", "electron", "touch", "tablet", "phone", "os", "formfactor"],
+  "keywords": [
+    "platform",
+    "detect",
+    "browser",
+    "node",
+    "pwa",
+    "web",
+    "chromium",
+    "uwp",
+    "electron",
+    "touch",
+    "tablet",
+    "phone",
+    "os",
+    "formfactor"
+  ],
   "homepage": "http://mutiny.cz/platform-detect",
   "bugs": "https://github.com/MikeKovarik/platform-detect/issues/",
   "repository": {
