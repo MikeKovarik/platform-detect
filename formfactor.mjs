@@ -13,7 +13,7 @@ p.removeListener = function(name, listener) {
 	if (listeners[name])
 		listeners[name].delete(listener)
 }
-function emit(name, value) {
+p.emit = function emit(name, value) {
 	if (listeners[name])
 		listeners[name].forEach(listener => listener(value))
 }
