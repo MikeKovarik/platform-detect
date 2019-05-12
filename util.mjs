@@ -14,9 +14,6 @@ if (gui && typeof nw !== 'undefined') {
 // The app runs in terminal/console and can only use console.log.
 export var terminal = !gui
 
-// The holy grail
-export var p = {gui, terminal}
-
 export var ua = gui ? navigator.userAgent : undefined
 
 export function registerQuery(query, handler) {
@@ -26,3 +23,6 @@ export function registerQuery(query, handler) {
 	mql.addListener(listener)
 	return () => mql.removeListener(listener)
 }
+
+// The holy grail
+export var p = {gui, terminal, registerQuery}

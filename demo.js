@@ -7,7 +7,7 @@ let $debuglog = document.querySelector('#debuglog')
 // library's way of notifying you about changes (to input typu and formfactor change i.e. tablet mode)
 platform.on('orientation', renderMainApi)
 platform.on('input', renderMainApi)
-platform.on('formFactor', renderMainApi)
+platform.on('formfactor', renderMainApi)
 
 // this is here only because we want to quickly emulate devices in chrome dev tools which changes
 // useragent (which cannot be listened because it doesnt change in real world) and screen size
@@ -34,7 +34,7 @@ function renderMainApi() {
 	renderToMain('Runtime: general', pick(platform, 'node', 'web', 'worker', 'serviceWorker'))
 	renderToMain('Browser', pick(platform, 'chrome', 'safari', 'edge', /*'edgeWin', 'edgeIos', 'edgeAndroid',*/ 'firefox'))
 	renderToMain('Rendering engine', pick(platform, 'edgeHtml', 'webkit', 'blink', 'gecko'))
-	renderToMain('Form factor: Input', pick(platform, 'formFactor', 'input', 'mouse', 'touch', 'gamepad'))
+	renderToMain('Form factor: Input', pick(platform, 'formfactor', 'input', 'mouse', 'touch', 'gamepad'))
 	renderToMain('Form factor: General', pick(platform, 'phone', 'tablet', 'hybrid', 'laptop', 'desktop', 'tv', 'gameconsole'))
 	renderToMain('Screen', pick(platform, 'pixelRatio', 'orientation', 'landscape', 'portrait'))
 	renderToMain('Other', pick(platform, 'gui', 'terminal', 'csp', 'dev'))

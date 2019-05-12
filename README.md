@@ -37,6 +37,8 @@
 npm install platform-detect
 ```
 
+Minified bundle is also available at [unpkg.com/platform-detect](https://unpkg.com/platform-detect)
+
 ## Usage
 
 Import everything
@@ -69,9 +71,9 @@ Or import just what you need
 ```js
 import {windows, android, linux, macos, tizen} from 'platform-detect/os.mjs'
 import {chrome, edge, safari} from 'platform-detect/browser.mjs'
-import {input, mouse, touch, formFactor} from 'platform-detect/formfactor.mjs'
+import {input, mouse, touch, formfactor} from 'platform-detect/formfactor.mjs'
 
-if (formFactor === 'tv' && tizen) {
+if (formfactor === 'tv' && tizen) {
   console.log(`I'm a Samsung Smart TV!`)
 }
 
@@ -151,7 +153,7 @@ By importing the `index.js` bundle you get all of the below. Or you can pick onl
 <br>values: `portrait` or `landscape`
 * **`portrait`** bool, event
 * **`landscape`** bool, event
-* **`formFactor`** string, event
+* **`formfactor`** string, event
 <br>values: `phone`, `tablet`, `desktop` or `tv`
 * **`pixelRatio`** float
 <br>number of the scale of how many physical pixels are used to render one logical pixel.

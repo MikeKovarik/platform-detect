@@ -69,17 +69,17 @@ if (p.gui) {
 		registerQuery('(hover: hover)', bool => {
 			p.mouse = bool
 			p.input = bool ? 'mouse' : 'touch'
-			p.formFactor = getFormFactor()
+			p.formfactor = getFormfactor()
 			emit('mouse', p.mouse)
 			emit('input', p.input)
-			emit('formFactor', p.formFactor)
+			emit('formfactor', p.formfactor)
 		})
 
 		// TODO: apply some light transpilation with babel because my relatively new smart tv runs tizen
 		// with 2 years old chromium which doesn't support destructuring syntax.
-		var shorterScreenSide = Math.min(window.screen.width, window.screen.height)
 
-		function getFormFactor() {
+		function getFormfactor() {
+			var shorterScreenSide = Math.min(window.screen.width, window.screen.height)
 			// TODO: add 'iot' or some other form of window-less app or monitor-less hardware.
 			if (p.tv)
 				return 'tv'
