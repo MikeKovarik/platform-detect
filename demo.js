@@ -1,3 +1,6 @@
+// this script was rewritten from ES6 to ES5 in order to work in older browsers.
+// Do not use any fancy new syntax!
+
 let platform = window['platform-detect']
 let $main = document.querySelector('main')
 let $ua = document.querySelector('#ua')
@@ -19,10 +22,13 @@ try {
 
 function debounce(func, delay) {
 	let timeout
-	return function(...args) {
+	//return function(...args) {
+	return function() {
 		clearTimeout(timeout)
 		let context = this
-		timeout = setTimeout(() => func.call(context, ...args), delay)
+		timeout = setTimeout(function () {
+			func.call(context, arguments)
+		}, delay)
 	}
 }
 
@@ -52,7 +58,7 @@ function renderAdditionalInfo() {
 	renderGamepadInfo()
 
 	if (navigator.getBattery) {
-		navigator.getBattery().then(battery => {
+		navigator.getBattery().then(function(battery) {
 			battery.addEventListener('chargingchange', renderBattery)
 			battery.addEventListener('levelchange', renderBattery)
 			battery.addEventListener('chargingtimechange', renderBattery)
@@ -71,12 +77,12 @@ function renderAdditionalInfo() {
 // we dont do this by default in the library because it would change behavior of the app/website. 
 var gamepadList// = navigator.getGamepads()
 var connectedGamepads = 0
-window.addEventListener('gamepadconnected', e => {
+window.addEventListener('gamepadconnected', function() {
 	connectedGamepads++
 	log('gamepadconnected')
 	renderGamepadInfo()
 })
-window.addEventListener('gamepaddisconnected', e => {
+window.addEventListener('gamepaddisconnected', function() {
 	connectedGamepads--
 	log('gamepaddisconnected')
 	renderGamepadInfo()
@@ -113,23 +119,28 @@ function renderToDom(container, name, data) {
 }
 
 function updateTableContent(name, object) {
-	var output = `<h2>${name}</h2>`
+	var output = '<h2>' + name + '</h2>'
 	output += '<table>'
-	for (let [key, value] of Object.entries(object)) {
-		output += `
-			<tr>
-				<td>${key}</td>
-				<td>${JSON.stringify(value)}</td>
-			</tr>`
-	}
+	Object.keys(object)
+		.forEach(function(key) {
+			var value = object[key]
+			output += '<tr>'
+			output += '</tr>'
+			output += '<td>' + key + '</td>'
+			output += '<td>' + JSON.stringify(value) + '</td>'
+		})
 	output += '</table>'
 	return output
 }
 
-function pick(input, ...keys) {
+//function pick(input, ...keys) {
+function pick() {
+	let keys = Array.from(arguments)
+	let input = keys.shift()
 	let output = {}
-	for (let key of keys)
+	keys.forEach(function(key) {
 		output[key] = input[key]
+	})
 	return output
 }
 

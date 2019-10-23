@@ -158,9 +158,25 @@
 	<section secondary id="debuglog"></section>
 
 	<script>
+		/*
+		shims. mostly needed for IE or very old browsers (old chormiums in smart TVs)
+		*/
+		if (!String.prototype.includes) {
+			String.prototype.includes = function(item) {
+				return this.indexOf(item) !== -1
+			}
+		}
+		if (!Array.from) {
+			Array.from = function(nodelist) {
+				return Array.prototype.slice.call(nodelist)
+			}
+		}
+
 		let $error = document.querySelector('#error')
 		window.addEventListener('error', function(e) {
-			$error.innerHTML += '<h2>Error</h2>' + (e.error.stack || e.error.message)
+			if (e.error) {
+				$error.innerHTML += '<h2>Error</h2>' + (e.error.stack || e.error.message)
+			}
 		})
 	</script>
 

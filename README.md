@@ -116,6 +116,12 @@ platform.on('orientation', orientation => console.log(orientation))
 </script>
 ```
 
+### Usage with older browsers
+
+Be advised: The library uses various ES6 and newer features. The syntax is compiled down to ES5 using babel. But you need to polyfill builtin methods in case you target browsers that don't implement them.
+
+Namely `String.prototype.includes` and `Array.from`.
+
 ## API
 
 [Check out the demo for full table of APIs](http://htmlpreview.github.io/?https://github.com/MikeKovarik/platform-detect/blob/master/demo.html)
@@ -211,6 +217,8 @@ platform.on('input', input => {
 
 ## TO-DOs & Ideas for the future
 
+* Add platform.ie Internet Explorer detection
+* Mention .web in readme
 * even better documentation
 * fix dev mode detection
 * battery (platform.hasBattery)

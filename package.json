@@ -31,7 +31,9 @@
     "build": "rollup -c rollup.config.prod.js"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.6.3",
     "rollup": "^1.11.3",
+    "rollup-plugin-babel": "^4.3.3",
     "rollup-plugin-notify": "^1.0.1",
     "rollup-plugin-uglify-es": "0.0.1"
   }
