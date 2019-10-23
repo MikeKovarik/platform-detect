@@ -33,6 +33,7 @@ p.packaged = p.uwp || p.nwjs || p.electron || p.cordova || p.chromeapp
 
 // The app runs inside browser and is served from a server or browser cache.
 p.web = !p.node && !p.packaged
+p.browser = p.web // alias
 
 // App is a plain old webpage and not a PWA.
 p.website = p.web && !p.pwa

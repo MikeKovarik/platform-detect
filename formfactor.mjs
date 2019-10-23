@@ -9,7 +9,7 @@ p.on = function(name, listener) {
 	listeners[name] = listeners[name] || new Set
 	listeners[name].add(listener)
 }
-p.removeListener = function(name, listener) {
+p.off = p.removeListener = function(name, listener) {
 	if (listeners[name])
 		listeners[name].delete(listener)
 }
@@ -49,7 +49,7 @@ if (p.gui) {
 		// TODO: detect when gamepad is custom handled (and used not just used to control the emulated pointer on smart TVs)
 		// TODO: throw gamepad into the platform.input
 
-		var gamepads = navigator.getGamepads()
+		var gamepads = navigator.getGamepads && navigator.getGamepads()
 		p.gamepad = !!gamepads && Array.from(gamepads).some(g => g !== null)
 
 		registerQuery('(orientation: portrait)', bool => {
