@@ -38,7 +38,7 @@ function renderMainApi() {
 	renderToMain('OS', pick(platform, 'windows', 'android', 'chromeos', 'macos', 'ios', 'tizen', 'linux', 'linuxBased'))
 	renderToMain('Runtime: specific', pick(platform, 'website', 'pwa', 'uwp', 'cordova', 'chromeapp', 'nwjs', 'electron'))
 	renderToMain('Runtime: general', pick(platform, 'node', 'web', 'worker', 'serviceWorker'))
-	renderToMain('Browser', pick(platform, 'chrome', 'safari', 'edge', /*'edgeWin', 'edgeIos', 'edgeAndroid',*/ 'firefox'))
+	renderToMain('Browser', pick(platform, 'chrome', 'safari', 'edge', 'ie', /*'edgeWin', 'edgeIos', 'edgeAndroid',*/ 'firefox'))
 	renderToMain('Rendering engine', pick(platform, 'edgeHtml', 'webkit', 'blink', 'gecko'))
 	renderToMain('Form factor: Input', pick(platform, 'formfactor', 'input', 'mouse', 'touch', 'gamepad'))
 	renderToMain('Form factor: General', pick(platform, 'phone', 'tablet', 'hybrid', 'laptop', 'desktop', 'tv', 'gameconsole'))

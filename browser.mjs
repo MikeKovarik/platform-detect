@@ -12,6 +12,7 @@ export default p
 //p.edge    = edgeWin
 // NOTE: Only returnin true for Edge (EdgeHtml) on windows. Android/iOs versions of Edge are powered by Webkit.
 p.edge    = p.gui && ua.includes('Edge/')
+p.ie      = p.gui && ua.includes('Trident')
 p.chrome  = p.gui && ua.includes('Chrome') && !p.edge
 p.safari  = p.gui && ua.includes('Safari') && !p.chrome && !p.edge
 p.opera   = p.gui && ua.includes('Opera')
