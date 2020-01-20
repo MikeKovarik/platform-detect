@@ -1,19 +1,16 @@
 # platform-detect
 
-[![Build Status](https://travis-ci.org/MikeKovarik/platform-detect.svg)](https://travis-ci.org/MikeKovarik/platform-detect)
-[![NPM](https://img.shields.io/npm/v/platform-detect.svg)](https://www.npmjs.com/package/platform-detect)
-[![License](http://img.shields.io/npm/l/platform-detect.svg?style=flat)](LICENSE)
+[![Build Status](https://travis-ci.org/MikeKovarik/platform-detect.svg?branch=master)](https://travis-ci.org/MikeKovarik/platform-detect)
 [![Dependency Status](https://david-dm.org/MikeKovarik/platform-detect.svg)](https://david-dm.org/MikeKovarik/platform-detect)
-[![devDependency Status](https://david-dm.org/MikeKovarik/platform-detect/dev-status.svg)](https://david-dm.org/MikeKovarik/platform-detect#info=devDependencies)
-
+[![gzip size](http://img.badgesize.io/https://unpkg.com/platform-detect/index.js?compression=gzip)](https://unpkg.com/platform-detect)
 [![Known Vulnerabilities](https://snyk.io/test/github/MikeKovarik/platform-detect/badge.svg)](https://snyk.io/test/github/MikeKovarik/platform-detect)
-[![Maintainability](https://api.codeclimate.com/v1/badges/f4c0ee405c46126d6325/maintainability)](https://codeclimate.com/github/MikeKovarik/platform-detect/maintainability)
-[![Discord](https://img.shields.io/discord/419198557363634178.svg)](https://discord.gg/v2mUmeD)
-[![Gitter](https://badges.gitter.im/MikeKovarik/platform-detect.svg)](https://gitter.im/MikeKovarik/platform-detect?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Maintainability](https://api.codeclimate.com/v1/badges/f4c0ee405c46126d6325/maintainability)](https://codeclimate.com/github/MikeKovarik/platform-detect)
+[![NPM](https://img.shields.io/npm/v/platform-detect.svg?style=flat)](https://www.npmjs.com/package/platform-detect)
+[![License](http://img.shields.io/npm/l/platform-detect.svg?style=flat)](LICENSE)
 
 🃏 Minimalistic isomorphic library for detection of platform, runtime, APIs and more.
 
-[Check out the demo](http://htmlpreview.github.io/?https://github.com/MikeKovarik/platform-detect/blob/master/example.html)
+[Check out the demo](http://mutiny.cz/platform-detect/)
 
 * No dependencies
 * Small size ~3kB
@@ -124,7 +121,7 @@ Namely `String.prototype.includes` and `Array.from`.
 
 ## API
 
-[Check out the demo for full table of APIs](http://htmlpreview.github.io/?https://github.com/MikeKovarik/platform-detect/blob/master/demo.html)
+[Check out the demo for full table of APIs](http://mutiny.cz/platform-detect/)
 
 By importing the `index.js` bundle you get all of the below. Or you can pick only certain file with the checks you need.
 
