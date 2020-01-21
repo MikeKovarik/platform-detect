@@ -6,22 +6,22 @@ export default p
 // I.e: UWP apps are rendered by Edge's EdgeHTML, Electron/NWJS apps are rendered by Chromium.
 
 // https://blogs.windows.com/msedgedev/2017/10/05/microsoft-edge-ios-android-developer/#49Fi4TfpgzHAwuXQ.97
-//p.edgeAndroid = p.gui && ua.includes('EdgiOS/')
-//p.edgeIos     = p.gui && ua.includes('EdgA/')
-//p.edgeWin     = p.gui && ua.includes('Edge/')
-//p.edge    = edgeWin
-// NOTE: Only returnin true for Edge (EdgeHtml) on windows. Android/iOs versions of Edge are powered by Webkit.
-p.edge    = p.gui && ua.includes('Edge/')
-p.ie      = p.gui && ua.includes('Trident')
-p.chrome  = p.gui && ua.includes('Chrome') && !p.edge
-p.safari  = p.gui && ua.includes('Safari') && !p.chrome && !p.edge
-p.opera   = p.gui && ua.includes('Opera')
-p.firefox = p.gui && ua.includes('Firefox')
+// https://www.whatismybrowser.com/guides/the-latest-user-agent/edge
+// https://www.whatismybrowser.com/guides/the-latest-user-agent/chrome
+// https://www.whatismybrowser.com/guides/the-latest-user-agent/safari
+// https://www.whatismybrowser.com/guides/the-latest-user-agent/opera
+// https://www.whatismybrowser.com/guides/the-latest-user-agent/firefox
 
-// RENDERING & JS ENGINES
-
-// TODO: all other android/ios browsers are webkit based.
-p.edgeHtml = p.edge
-p.blink    = p.chrome// || edgeAndroid
-p.webkit   = p.blink || p.safari// || edgeIos
-p.gecko    = p.firefox
+p.edgeHtml       = p.gui && ua.includes('Edge/')
+p.edgeChromium   = p.gui && ua.includes('Edg/')
+p.edgeAndroid    = p.gui && ua.includes('EdgA/')
+p.edgeIos        = p.gui && ua.includes('EdgiOS/')
+p.edge           = p.edgeHtml || p.edgeChromium || p.edgeAndroid || p.edgeIos
+p.chrome         = p.gui && ua.includes('Chrome') && !p.edge
+p.firefox        = p.gui && (ua.includes('Firefox') || ua.includes('FxiOS/'))
+p.opera          = p.gui && (ua.includes('Opera') || ua.includes('OPR/'))
+p.safari         = p.gui && ua.includes('Safari') && !p.chrome && !p.edge && !p.firefox && !p.opera
+p.ie = p.trident = p.gui && ua.includes('Trident')
+p.blink          = p.chrome
+p.webkit         = p.chrome || p.safari
+p.gecko          = p.firefox && !p.webkit

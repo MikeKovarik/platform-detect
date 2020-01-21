@@ -113,7 +113,7 @@ platform.on('orientation', orientation => console.log(orientation))
 </script>
 ```
 
-### Usage with older browsers
+### Usage in older browsers
 
 Be advised: The library uses various ES6 and newer features. The syntax is compiled down to ES5 using babel. But you need to polyfill builtin methods in case you target browsers that don't implement them.
 
@@ -128,7 +128,7 @@ By importing the `index.js` bundle you get all of the below. Or you can pick onl
 * **`terminal`** bool
 <br>Script running in console or terminal (Node, Worker)
 * **`gui`** bool
-<br>App has a window, access to DOM. Can render GUI
+<br>App has a window & access to DOM. Can render GUI
 
 ### `runtime.mjs`
 
@@ -205,16 +205,15 @@ Some aspects can change during app's life. You can listen to these changes with 
 platform.on('orientation', orientation => console.log('orientation changed': orientation))
 
 platform.on('input', input => {
-	if (input === 'mouse)
-		console.log('keyboard attached')
-	else
-		console.log('tablet mode')
+  if (input === 'mouse')
+    console.log('keyboard attached')
+  else
+    console.log('tablet mode')
 })
 ```
 
 ## TO-DOs & Ideas for the future
 
-* Add platform.ie Internet Explorer detection
 * Mention .web in readme
 * even better documentation
 * fix dev mode detection
