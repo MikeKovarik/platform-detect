@@ -18,12 +18,22 @@ var emit = p.emit = function(name, value) {
 		listeners[name].forEach(listener => listener(value))
 }
 
+function applyAndEmit(key, newVal) {
+	if (p[key] === newVal) return false
+	p[key] = newVal
+	emit(key, newVal)
+	return true
+}
+
 
 if (p.gui) {
 
 	p.pixelRatio = parseFloat(window.devicePixelRatio.toFixed(2))
-
 	p.gameconsole = ua.includes('Xbox') || ua.includes('PlayStation')
+
+	var gamepadCount = 0
+	window.addEventListener('gamepadconnected', e => gamepadCount++)
+	window.addEventListener('gamepaddisconnected', e => gamepadCount--)
 
 	if (p.gameconsole) {
 
@@ -35,11 +45,7 @@ if (p.gui) {
 		p.tv = true
 		p.battery = false
 		p.phone = p.tablet = p.hybrid = p.laptop = p.desktop = false
-
-		// undocumented api used for detecting current use of the site
-		p.gamepads = 0
-		window.addEventListener('gamepadconnected', e => p.gamepads++)
-		window.addEventListener('gamepaddisconnected', e => p.gamepads--)
+		p.formfactor = 'gameconsole'
 
 	} else {
 
@@ -49,8 +55,9 @@ if (p.gui) {
 		// TODO: detect when gamepad is custom handled (and used not just used to control the emulated pointer on smart TVs)
 		// TODO: throw gamepad into the platform.input
 
-		var gamepads = navigator.getGamepads && navigator.getGamepads()
-		p.gamepad = !!gamepads && Array.from(gamepads).some(g => g !== null)
+		// warning: older browsers filled used undefined instead of null
+		gamepadCount = navigator.getGamepads ? Array.from(navigator.getGamepads()).filter(g => g !== null && g !== undefined).length : 0
+		p.gamepad = gamepadCount > 0
 
 		registerQuery('(orientation: portrait)', bool => {
 			p.portrait = bool
@@ -62,21 +69,26 @@ if (p.gui) {
 		})
 
 		registerQuery('(any-pointer: coarse)', bool => {
-			p.touch = bool
-			emit('touch', p.touch)
+			applyAndEmit('touch', bool)
+			let formFactorChanged = applyAndEmit('formfactor', getFormfactor())
+			if (formFactorChanged) applyFormFactor()
 		})
 
 		registerQuery('(hover: hover)', bool => {
-			p.mouse = bool
-			p.input = bool ? 'mouse' : 'touch'
-			p.formfactor = getFormfactor()
-			emit('mouse', p.mouse)
-			emit('input', p.input)
-			emit('formfactor', p.formfactor)
+			applyAndEmit('mouse', bool)
+			applyAndEmit('input', bool ? 'mouse' : 'touch')
+			let formFactorChanged = applyAndEmit('formfactor', getFormfactor())
+			if (formFactorChanged) applyFormFactor()
 		})
 
-		// TODO: apply some light transpilation with babel because my relatively new smart tv runs tizen
-		// with 2 years old chromium which doesn't support destructuring syntax.
+		function applyFormFactor() {
+			applyAndEmit('tv',      p.formfactor === 'tv')
+			applyAndEmit('phone',   p.formfactor === 'phone')
+			applyAndEmit('tablet',  p.formfactor === 'tablet')
+			applyAndEmit('hybrid',  p.formfactor === 'hybrid')
+			applyAndEmit('laptop',  p.formfactor === 'laptop')
+			applyAndEmit('desktop', p.formfactor === 'desktop')
+		}
 
 		function getFormfactor() {
 			var shorterScreenSide = Math.min(window.screen.width, window.screen.height)
@@ -87,8 +99,8 @@ if (p.gui) {
 				return 'phone'
 			else if (p.touch && !p.mouse)
 				return 'tablet'
-			//else if (p.touch && p.mouse)
-			//	return 'hybrid'
+			else if (p.touch && p.mouse)
+				return 'hybrid'
 			else if (p.battery)
 				return 'laptop'
 			else
