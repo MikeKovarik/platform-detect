@@ -158,6 +158,14 @@
 	<section secondary id="debuglog"></section>
 
 	<script>
+		// important: dont use let - older browsers (samsung tizen tvs use arcane chromium)
+		var $error = document.querySelector('#error')
+		window.addEventListener('error', function(e) {
+			if (e.error) {
+				$error.innerHTML += '<h2>Error</h2>' + (e.error.stack || e.error.message)
+			}
+		})
+
 		/*
 		shims. mostly needed for IE or very old browsers (old chormiums in smart TVs)
 		*/
@@ -171,14 +179,8 @@
 				return Array.prototype.slice.call(nodelist)
 			}
 		}
-
-		let $error = document.querySelector('#error')
-		window.addEventListener('error', function(e) {
-			if (e.error) {
-				$error.innerHTML += '<h2>Error</h2>' + (e.error.stack || e.error.message)
-			}
-		})
 	</script>
+
 
 	<script src="index.js"></script>
 	<script src="demopage.js"></script>
