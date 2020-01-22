@@ -41,7 +41,7 @@ function renderMainApi() {
 	$ua.innerHTML = navigator.userAgent
 	$main.innerHTML = ''
 	renderToMain('OS', pick(platform, 'windows', 'android', 'chromeos', 'macos', 'ios', 'tizen', 'linux', 'linuxBased'))
-	renderToMain('Runtime: specific', pick(platform, 'website', 'pwa', 'uwp', 'cordova', 'chromeapp', 'nwjs', 'electron'))
+	renderToMain('Runtime: specific', pick(platform, 'website', 'pwa', 'uwp', 'cordova', 'nwjs', 'electron'))
 	renderToMain('Runtime: general', pick(platform, 'node', 'web', 'worker', 'serviceWorker'))
 	renderToMain('Browser', pick(platform, 'chrome', 'safari', 'edge', 'ie', 'firefox', 'samsungBrowser'/*, 'edgeIos', 'edgeAndroid', 'firefoxIos', 'chromeIos'*/))
 	renderToMain('Rendering engine', pick(platform, 'edgeHtml', 'webkit', 'blink', 'gecko'))

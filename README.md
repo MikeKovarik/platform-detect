@@ -4,7 +4,6 @@
 [![Dependency Status](https://david-dm.org/MikeKovarik/platform-detect.svg)](https://david-dm.org/MikeKovarik/platform-detect)
 [![gzip size](http://img.badgesize.io/https://unpkg.com/platform-detect/index.js?compression=gzip)](https://unpkg.com/platform-detect)
 [![Known Vulnerabilities](https://snyk.io/test/github/MikeKovarik/platform-detect/badge.svg)](https://snyk.io/test/github/MikeKovarik/platform-detect)
-[![Maintainability](https://api.codeclimate.com/v1/badges/f4c0ee405c46126d6325/maintainability)](https://codeclimate.com/github/MikeKovarik/platform-detect)
 [![NPM](https://img.shields.io/npm/v/platform-detect.svg?style=flat)](https://www.npmjs.com/package/platform-detect)
 [![License](http://img.shields.io/npm/l/platform-detect.svg?style=flat)](LICENSE)
 
@@ -30,11 +29,15 @@
 
 ## Installation
 
-```js
+```
 npm install platform-detect
 ```
 
-Minified bundle is also available at [unpkg.com/platform-detect](https://unpkg.com/platform-detect)
+ur use CDN like [unpkg.com/platform-detect](https://unpkg.com/platform-detect) (comes with)
+
+```js
+<script src="https://unpkg.com/platform-detect"></script>
+```
 
 ## Usage
 
@@ -148,7 +151,6 @@ By importing the `index.js` bundle you get all of the below. Or you can pick onl
 * **`electron`** bool
 * **`cordova`** bool
 * **`uwp`** bool
-* ~~**`chromeapp`** bool~~
 
 ### `formfactor.mjs`
 

@@ -4,7 +4,7 @@ import './runtime.mjs'
 export default p
 
 // Detects if the platform is constrained by Cancerous Security Policy.
-p.csp = p.uwp || p.chromeapp || false
+p.csp = p.uwp || false
 
 // Detects if NW.JS runs in SDK version (console available) and if Electron is executed from npm/node_modules/electron global.
 if (p.nwjs) {
