@@ -1,11 +1,16 @@
+// important: dont use var - older browsers (samsung tizen tvs use arcane chromium)
+
 // this script was rewritten from ES6 to ES5 in order to work in older browsers.
 // Do not use any fancy new syntax!
 
-let platform = window['platform-detect']
-let $main = document.querySelector('main')
-let $ua = document.querySelector('#ua')
-let $additionalInfo = document.querySelector('#additional-info')
-let $debuglog = document.querySelector('#debuglog')
+var platform = window['platform-detect']
+var $main = document.querySelector('main')
+var $ua = document.querySelector('#ua')
+var $additionalInfo = document.querySelector('#additional-info')
+var $debuglog = document.querySelector('#debuglog')
+
+// way to force-relaod on phones where you can't do ctr+shift+r.
+$ua.addEventListener('click', () => window.location.reload(true))
 
 // library's way of notifying you about changes (to input typu and formfactor change i.e. tablet mode)
 platform.on('orientation', renderMainApi)
@@ -21,11 +26,11 @@ try {
 }
 
 function debounce(func, delay) {
-	let timeout
+	var timeout
 	//return function(...args) {
 	return function() {
 		clearTimeout(timeout)
-		let context = this
+		var context = this
 		timeout = setTimeout(function () {
 			func.call(context, arguments)
 		}, delay)
@@ -38,7 +43,7 @@ function renderMainApi() {
 	renderToMain('OS', pick(platform, 'windows', 'android', 'chromeos', 'macos', 'ios', 'tizen', 'linux', 'linuxBased'))
 	renderToMain('Runtime: specific', pick(platform, 'website', 'pwa', 'uwp', 'cordova', 'chromeapp', 'nwjs', 'electron'))
 	renderToMain('Runtime: general', pick(platform, 'node', 'web', 'worker', 'serviceWorker'))
-	renderToMain('Browser', pick(platform, 'chrome', 'safari', 'edge', 'ie', /*'edgeWin', 'edgeIos', 'edgeAndroid',*/ 'firefox'))
+	renderToMain('Browser', pick(platform, 'chrome', 'safari', 'edge', 'ie', 'firefox', 'samsungBrowser'/*, 'edgeIos', 'edgeAndroid', 'firefoxIos', 'chromeIos'*/))
 	renderToMain('Rendering engine', pick(platform, 'edgeHtml', 'webkit', 'blink', 'gecko'))
 	renderToMain('Form factor: Input', pick(platform, 'formfactor', 'input', 'mouse', 'touch', 'gamepad'))
 	renderToMain('Form factor: General', pick(platform, 'phone', 'tablet', 'hybrid', 'laptop', 'desktop', 'tv', 'gameconsole'))
@@ -47,13 +52,16 @@ function renderMainApi() {
 }
 
 function renderAdditionalInfo() {
-	renderToAdd('Other Web APIs', {
-		'platform': navigator.platform,
-		'deviceMemory': window.clientInformation.deviceMemory,
-		'hardwareConcurrency': window.clientInformation.hardwareConcurrency,
-		'language': window.clientInformation.language,
-		'languages': window.clientInformation.languages,
-	})
+	var otherApis = {
+		platform: navigator.platform,
+	}
+	if (window.clientInformation) {
+		otherApis.deviceMemory = window.clientInformation.deviceMemory
+		otherApis.hardwareConcurrency = window.clientInformation.hardwareConcurrency
+		otherApis.language = window.clientInformation.language
+		otherApis.languages = window.clientInformation.languages
+	}
+	renderToAdd('Other Web APIs', otherApis)
 
 	renderGamepadInfo()
 
@@ -63,9 +71,9 @@ function renderAdditionalInfo() {
 			battery.addEventListener('levelchange', renderBattery)
 			battery.addEventListener('chargingtimechange', renderBattery)
 			battery.addEventListener('dischargingtimechange', renderBattery)
-			let batteryDiv
+			var batteryDiv
 			function renderBattery() {
-				let bat = pick(battery, 'charging', 'chargingTime', 'dischargingTime', 'level')
+				var bat = pick(battery, 'charging', 'chargingTime', 'dischargingTime', 'level')
 				batteryDiv = renderToAdd('Battery', bat, batteryDiv)
 			}
 			renderBattery()
@@ -135,9 +143,9 @@ function updateTableContent(name, object) {
 
 //function pick(input, ...keys) {
 function pick() {
-	let keys = Array.from(arguments)
-	let input = keys.shift()
-	let output = {}
+	var keys = Array.from(arguments)
+	var input = keys.shift()
+	var output = {}
 	keys.forEach(function(key) {
 		output[key] = input[key]
 	})
