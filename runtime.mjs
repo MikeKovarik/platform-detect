@@ -25,11 +25,8 @@ p.electron = !!(p.node && process.versions.electron)
 // Cordova mobile app
 p.cordova = !!(p.gui && window.cordova)
 
-// Chrome app (Chrome OS app)
-p.chromeapp = undefined // todo
-
 // The platform requires app to be compiled, bundled or packaged.
-p.packaged = p.uwp || p.nwjs || p.electron || p.cordova || p.chromeapp
+p.packaged = p.uwp || p.nwjs || p.electron || p.cordova
 
 // The app runs inside browser and is served from a server or browser cache.
 p.web = !p.node && !p.packaged
@@ -44,4 +41,4 @@ p.worker = !p.gui
 	&& self.importScripts !== undefined
 	//&& self.close !== undefined
 
-//p.serviceWorker = p.worker && !!navigator.serviceWorker.controller
+p.serviceWorker = p.worker && !!navigator.serviceWorker.controller || false
