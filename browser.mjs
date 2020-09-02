@@ -23,7 +23,7 @@ p.samsungBrowser = p.gui && ua.includes('SamsungBrowser/')
 p.opera          = p.gui && (ua.includes('Opera')   || ua.includes('OPR/'))
 p.firefox        = p.gui && (ua.includes('Firefox') || p.firefoxIos)
 p.chrome         = p.gui && (ua.includes('Chrome')  || p.chromeIos) && !p.edge && !p.opera && !p.samsungBrowser
-p.safari         = (p.gui && ua.includes('Safari') && !p.chrome && !p.edge && !p.firefox && !p.opera) || p.edgeIos || p.chromeIos || p.firefoxIos
+p.safari         = (p.gui && ua.includes('Safari') && !p.chrome && !p.edge && !p.firefox && !p.opera && !p.samsungBrowser) || p.edgeIos || p.chromeIos || p.firefoxIos
 p.ie = p.trident = p.gui && ua.includes('Trident')
 p.blink          = (p.chrome && !p.chromeIos) || p.edgeChromium || p.edgeAndroid || p.samsungBrowser
 p.webkit         = p.blink || p.safari
