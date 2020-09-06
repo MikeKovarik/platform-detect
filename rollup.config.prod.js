@@ -1,6 +1,6 @@
 import fs from 'fs'
 import notify from 'rollup-plugin-notify'
-import babel from 'rollup-plugin-babel'
+import babel from '@rollup/plugin-babel'
 import uglify from 'rollup-plugin-uglify-es'
 
 

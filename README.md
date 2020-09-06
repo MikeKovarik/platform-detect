@@ -118,9 +118,24 @@ platform.on('orientation', orientation => console.log(orientation))
 
 ### Usage in older browsers
 
-Be advised: The library uses various ES6 and newer features. The syntax is compiled down to ES5 using babel. But you need to polyfill builtin methods in case you target browsers that don't implement them.
+Be advised: The library uses various ES6 and newer features. The syntax is compiled down to ES5 using babel. But you need to polyfill the built-in methods in case you target browsers that don't implement them.
 
 Namely `String.prototype.includes` and `Array.from`.
+
+For example:
+
+```js
+if (!String.prototype.includes) {
+	String.prototype.includes = function(item) {
+		return this.indexOf(item) !== -1
+	}
+}
+if (!Array.from) {
+	Array.from = function(nodelist) {
+		return Array.prototype.slice.call(nodelist)
+	}
+}
+```
 
 ## API
 

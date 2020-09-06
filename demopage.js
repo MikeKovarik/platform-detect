@@ -1,6 +1,6 @@
 // important: dont use var - older browsers (samsung tizen tvs use arcane chromium)
 
-// this script was rewritten from ES6 to ES5 in order to work in older browsers.
+// !!! this script was rewritten from ES6 to ES5 in order to work in older browsers.
 // Do not use any fancy new syntax!
 
 var platform = window['platform-detect']
@@ -9,8 +9,10 @@ var $ua = document.querySelector('#ua')
 var $additionalInfo = document.querySelector('#additional-info')
 var $debuglog = document.querySelector('#debuglog')
 
-// way to force-relaod on phones where you can't do ctr+shift+r.
-$ua.addEventListener('click', () => window.location.reload(true))
+// way to force-reload on phones where you can't do ctr+shift+r.
+$ua.addEventListener('click', function () {
+	window.location.reload(true)
+})
 
 // library's way of notifying you about changes (to input typu and formfactor change i.e. tablet mode)
 platform.on('orientation', renderMainApi)
