@@ -190,18 +190,23 @@ By importing the `index.js` bundle you get all of the below. Or you can pick onl
 
 Browsers:
 
-* **`edge`** bool
+* **`edge`** bool *(all of them, legacy, the new chromium, all the webkit/blink mobile verions)*
 * **`chrome`** bool
-* **`safari`** bool
-* **`opera`** bool
 * **`firefox`** bool
+* **`opera`** bool
+* **`samsungBrowser`** bool
+* **`safari`** bool
+* **`ie`** bool
+* Also: `edgeAndroid`, `edgeIos`, `chromeIos`, `firefoxIos` *(these are in fact blink or webkit)*
 
 Rendering engines:
 
-* **`edgeHtml`** bool
-* **`blink`** bool
-* **`webkit`** bool
+* **`edgeHtml`** bool *(the old one)*
+* **`edgeChromium`** bool *(the new one)*
+* **`blink`** bool *(chrome and all Android browswers)*
+* **`webkit`** bool *(safari and all iOs browswers)*
 * **`gecko`** bool
+* **`trident`** bool
 
 ### `os.mjs`
 
