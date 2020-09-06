@@ -12,7 +12,7 @@
 [Check out the demo](http://mutiny.cz/platform-detect/)
 
 * No dependencies
-* Small size ~4kB
+* Small size ~5kB
 * Split into multiple files *"import just what you need"*
 * ... but also available as a bundle of all detectors.
 
